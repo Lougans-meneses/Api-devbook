@@ -10,9 +10,10 @@ import (
 	"encoding/json"
 	"io/ioutil"
 	"net/http"
+	"strconv"
 )
 
-// Login e responsavel por autenticar um usuario na API
+// Login é responsável por autenticar um usuário na API
 func Login(w http.ResponseWriter, r *http.Request) {
 	corpoRequisicao, erro := ioutil.ReadAll(r.Body)
 	if erro != nil {
@@ -40,7 +41,7 @@ func Login(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if erro := seguranca.VerificarSenha(usuarioSalvoNoBanco.Senha, usuario.Senha); erro != nil {
+	if erro = seguranca.VerificarSenha(usuarioSalvoNoBanco.Senha, usuario.Senha); erro != nil {
 		respostas.Erro(w, http.StatusUnauthorized, erro)
 		return
 	}
@@ -51,5 +52,7 @@ func Login(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	w.Write([]byte(token))
+	usuarioID := strconv.FormatUint(usuarioSalvoNoBanco.ID, 10)
+
+	respostas.JSON(w, http.StatusOK, modelos.DadosAutenticacao{ID: usuarioID, Token: token})
 }

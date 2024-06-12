@@ -7,15 +7,15 @@ import (
 	"net/http"
 )
 
-// Logger escrever informacoes de requisicoes no terminal
+// Logger escreve informações da requisição no terminal
 func Logger(proximaFuncao http.HandlerFunc) http.HandlerFunc {
-	return func (w http.ResponseWriter, r *http.Request)  {
-		log.Printf("\n %s %s %s", r.Method, r.RequestURI, r.Host)
+	return func(w http.ResponseWriter, r *http.Request) {
+		log.Printf("\n%s %s %s", r.Method, r.RequestURI, r.Host)
 		proximaFuncao(w, r)
 	}
 }
 
-// Autenticar verifica se o usuario fazendo a requisicao esta autenticado
+// Autenticar verifica se o usuário fazendo a requisição está autenticado
 func Autenticar(proximaFuncao http.HandlerFunc) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		if erro := autenticacao.ValidarToken(r); erro != nil {

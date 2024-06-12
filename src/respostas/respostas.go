@@ -6,8 +6,8 @@ import (
 	"net/http"
 )
 
-// JSON retorna uma resposta em JSON para a requisicao
-func JSON(w http.ResponseWriter, statusCode int , dados interface{}) {
+// JSON retorna uma resposta em JSON para a requisição
+func JSON(w http.ResponseWriter, statusCode int, dados interface{}) {
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(statusCode)
 
@@ -16,10 +16,11 @@ func JSON(w http.ResponseWriter, statusCode int , dados interface{}) {
 			log.Fatal(erro)
 		}
 	}
+
 }
 
-// Erro retorna um erro em formato JSON 
-func Erro(w http.ResponseWriter, statusCode int , erro error) {
+// Erro retorna um erro em formato JSON
+func Erro(w http.ResponseWriter, statusCode int, erro error) {
 	JSON(w, statusCode, struct {
 		Erro string `json:"erro"`
 	}{
